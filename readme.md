@@ -107,11 +107,13 @@ We sincerely thank the open-source community for their invaluable contributions.
 ## Citation
 If you find this work useful, please consider citing our paper:
 ```bibtex
-@inproceedings{ai2025nli4volvis,
-  title={NLI4VolVis: Natural Language Interaction for Volume Visualization via LLM Multi-Agents and Editable 3D Gaussian Splatting},
-  author={Ai, Kuangshi and Tang, Kaiyuan and Wang, Chaoli},
-  booktitle={Proceedings of IEEE Visualization Conference},
-  year={2025},
-  organization={IEEE}
+@article{ai2025nli4volvis,
+ author = {Ai, Kuangshi and Tang, Kaiyuan and Wang, Chaoli},
+ title = {{NLI4VolVis}: Natural Language Interaction for Volume Visualization via Multi-{LLM} Agents and Editable {3D Gaussian} Splatting},
+ journal = {IEEE Transactions on Visualization and Computer Graphics (IEEE VIS 2025)},
+ volume = {32},
+ number = {1},
+ year = {2026},
+ note = {Conditionally Accepted}
 }
 ```
