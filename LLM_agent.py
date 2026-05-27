@@ -117,15 +117,19 @@ def call_llm(conversation_history: list, client: OpenAI, system: str = None, mod
             {"role": "system", "content": "You are an assistant specializing in understanding user requests and converting them into GUI control commands."},
             {"role": "system", "content": system}
         ] + list(conversation_history),
-        "max_tokens": 500,
+        "max_tokens": 2048,
         "temperature": 0.1,
         "stream": False
     }
     if response_format:
         params["response_format"] = response_format
     response = client.chat.completions.create(**params)
-    # In JSON mode, the content should be a valid serialized JSON string.
-    return response.choices[0].message.content.strip()
+    content = response.choices[0].message.content
+    if not content:
+        finish_reason = response.choices[0].finish_reason
+        print(f"[WARNING] LLM returned empty content (finish_reason={finish_reason}, model={model})")
+        return ""
+    return content.strip()
 
 def process_user_query(
     user_input: str, 
@@ -500,21 +504,23 @@ def process_user_query(
     current_section = None
     for line in lines:
         line_stripped = line.strip()
-        if line_stripped.lower() == "part1:":
+        # Normalize away markdown formatting (bold, headers) before checking section headers
+        line_normalized = line_stripped.lower().lstrip('#').strip().strip('*').strip()
+        if line_normalized in ("part1:", "part 1:"):
             current_section = "part1"
             continue
-        elif line_stripped.lower() == "part2:":
+        elif line_normalized in ("part2:", "part 2:"):
             current_section = "part2"
             continue
         # Check if this line is the iterate decision.
         elif line_stripped.upper().startswith("ITERATE:"):
             iterate_decision = line_stripped.split("ITERATE:")[1].strip().upper()
             continue
-        if not line_stripped:
+        if not line_stripped or line_stripped.startswith("```"):
             continue
-        if current_section == "part1" and current_section !="```":
+        if current_section == "part1":
             part1_commands.append(line_stripped)
-        elif current_section == "part2" and current_section !="```":
+        elif current_section == "part2":
             cleaned_text = line_stripped.strip('"').strip()
             part2_explanations.append(cleaned_text)
 

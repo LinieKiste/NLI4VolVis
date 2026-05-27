@@ -24,9 +24,9 @@ image_path="./ImgData/$mapped_dataset"
 # Load API keys from .env file in project root
 set -a; source "$(dirname "$0")/../.env"; set +a
 
-api_keys_json="{\"openai_audio\":\"$OPENAI_API_KEY\", \"gpt-4o\":\"$OPENAI_API_KEY\", \"deepseek-chat\":\"$DEEPSEEK_API_KEY\", \"llama3.2-90b-vision\":\"$LLAMA_API_KEY\"}"
+api_keys_json="{\"openai_audio\":\"$OPENAI_API_KEY\", \"gpt-4o\":\"$OPENAI_API_KEY\", \"deepseek-v4-flash\":\"$DEEPSEEK_API_KEY\", \"llama3.2-90b-vision\":\"$LLAMA_API_KEY\"}"
 
-model_name="gpt-4o"
+model_name="deepseek-v4-flash"
 embedding_name="image_embedding_entropy_plus_text.npy"
 
 export PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:32
