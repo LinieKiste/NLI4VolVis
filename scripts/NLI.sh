@@ -21,8 +21,10 @@ fi
 root_path="./output/$mapped_dataset"
 image_path="./ImgData/$mapped_dataset"
 
-# Define API keys as a properly escaped JSON string
-api_keys_json='{"openai_audio":"Your-OpenAI-Key", "gpt-4o":"Your-OpenAI-Key","deepseek-chat":"Your-DeepSeek-Key", "llama3.2-90b-vision": "Your-Llama-Key"}'
+# Load API keys from .env file in project root
+set -a; source "$(dirname "$0")/../.env"; set +a
+
+api_keys_json="{\"openai_audio\":\"$OPENAI_API_KEY\", \"gpt-4o\":\"$OPENAI_API_KEY\", \"deepseek-chat\":\"$DEEPSEEK_API_KEY\", \"llama3.2-90b-vision\":\"$LLAMA_API_KEY\"}"
 
 model_name="gpt-4o"
 embedding_name="image_embedding_entropy_plus_text.npy"

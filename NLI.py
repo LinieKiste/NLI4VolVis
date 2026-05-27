@@ -880,8 +880,11 @@ class GUI:
         self.start.record()
         render_pkg = self.render_fn(viewpoint_camera=self.custom_cam, **self.render_kwargs)
         self.end.record()
-        torch.cuda.synchronize()
-        t = self.start.elapsed_time(self.end)
+        try:
+            self.end.synchronize()
+            t = self.start.elapsed_time(self.end)
+        except RuntimeError:
+            t = 0
 
         buffer1 = self.get_buffer(render_pkg, self.mode)
         # Overlay legend on the render buffer
